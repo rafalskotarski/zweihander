@@ -1,0 +1,48 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.ui {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+}
+
+.ui__health-container {
+  position: relative;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ui__max-health {
+  background-color: rgb(119, 119, 69);
+  height: 30px;
+  width: 100%;
+}
+
+.ui__player-health,
+.ui__enemy-health {
+  position: absolute;
+  background-color: yellow;
+  height: 30px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.ui__enemy-health {
+  left: 0;
+}
+
+.ui__timer {
+  background-color: firebrick;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
