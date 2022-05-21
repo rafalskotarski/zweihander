@@ -68,6 +68,10 @@ const player = new Fighter({
       imageSrc: "./assets/samurai/Take Hit.png",
       framesMax: 4,
     },
+    death: {
+      imageSrc: "./assets/samurai/Death.png",
+      framesMax: 6,
+    },
   },
   hitBox: {
     offset: {
@@ -121,6 +125,10 @@ const enemy = new Fighter({
     takeHit: {
       imageSrc: "./assets/ronin/Take hit.png",
       framesMax: 3,
+    },
+    death: {
+      imageSrc: "./assets/ronin/Death.png",
+      framesMax: 7,
     },
   },
   hitBox: {
@@ -252,37 +260,43 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    //player
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    case "w":
-      player.velocity.y = -20;
-      break;
-    case " ":
-      player.attack();
-      break;
-    //enemy
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
-    case "ArrowUp":
-      enemy.velocity.y = -20;
-      break;
-    case "0":
-      enemy.attack();
-      break;
+  if (!player.dead) {
+    switch (e.key) {
+      //player
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      case "w":
+        player.velocity.y = -20;
+        break;
+      case " ":
+        player.attack();
+        break;
+    }
+  }
+  if (!enemy.dead) {
+    switch (e.key) {
+      //enemy
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
+      case "ArrowUp":
+        enemy.velocity.y = -20;
+        break;
+      case "0":
+        enemy.attack();
+        break;
+    }
   }
 });
 
