@@ -60,12 +60,16 @@ const player = new Fighter({
       imageSrc: "./assets/samurai/Fall.png",
       framesMax: 2,
     },
+    attack1: {
+      imageSrc: "./assets/samurai/Attack1.png",
+      framesMax: 6,
+    },
   },
 });
 
 const enemy = new Fighter({
   position: {
-    x: canvas.width - 150,
+    x: 400,
     y: 100,
   },
   velocity: {
@@ -76,6 +80,32 @@ const enemy = new Fighter({
   offset: {
     x: -50,
     y: 0,
+  },
+  imageSrc: "./assets/ronin/Idle.png",
+  framesMax: 4,
+  scale: 2.5,
+  offset: { x: 215, y: 265 },
+  sprites: {
+    idle: {
+      imageSrc: "./assets/ronin/Idle.png",
+      framesMax: 4,
+    },
+    run: {
+      imageSrc: "./assets/ronin/Run.png",
+      framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./assets/ronin/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./assets/ronin/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./assets/ronin/Attack1.png",
+      framesMax: 4,
+    },
   },
 });
 
@@ -105,7 +135,7 @@ function animate() {
   shop.update();
 
   player.update();
-  //enemy.update();
+  enemy.update();
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
@@ -122,7 +152,7 @@ function animate() {
     player.switchSprite("idle");
   }
 
-  // jumping
+  // player jumping
 
   if (player.velocity.y < 0) {
     player.switchSprite("jump");
@@ -134,8 +164,20 @@ function animate() {
 
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprite("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprite("run");
+  } else {
+    enemy.switchSprite("idle");
+  }
+
+  // enemy jumping
+
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
   }
 
   //detect for collision
