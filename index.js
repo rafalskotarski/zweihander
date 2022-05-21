@@ -16,9 +16,19 @@ const background = new Sprite({
   imageSrc: "./assets/background.PNG",
 });
 
+const shop = new Sprite({
+  position: {
+    x: canvas.width / 2,
+    y: canvas.height - 350,
+  },
+  imageSrc: "./assets/shop.png",
+  scale: 2.75,
+  framesMax: 6,
+});
+
 const player = new Fighter({
   position: {
-    x: 0,
+    x: 100,
     y: 0,
   },
   velocity: {
@@ -33,7 +43,7 @@ const player = new Fighter({
 
 const enemy = new Fighter({
   position: {
-    x: 400,
+    x: canvas.width - 150,
     y: 100,
   },
   velocity: {
@@ -70,6 +80,7 @@ function animate() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   background.update();
+  shop.update();
 
   player.update();
   enemy.update();
