@@ -65,11 +65,19 @@ const player = new Fighter({
       framesMax: 6,
     },
   },
+  hitBox: {
+    offset: {
+      x: 50,
+      y: -70,
+    },
+    width: 180,
+    height: 120,
+  },
 });
 
 const enemy = new Fighter({
   position: {
-    x: 400,
+    x: 824,
     y: 100,
   },
   velocity: {
@@ -106,6 +114,14 @@ const enemy = new Fighter({
       imageSrc: "./assets/ronin/Attack1.png",
       framesMax: 4,
     },
+  },
+  hitBox: {
+    offset: {
+      x: -160,
+      y: -70,
+    },
+    width: 180,
+    height: 120,
   },
 });
 
@@ -186,11 +202,17 @@ function animate() {
       rectangle1: player,
       rectangle2: enemy,
     }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.framesCurrent === 4
   ) {
     player.isAttacking = false;
     enemy.health -= 10;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+  }
+
+  // player misses
+  if (player.isAttacking && player.framesCurrent === 4) {
+    player.isAttacking = false;
   }
 
   if (
@@ -198,11 +220,17 @@ function animate() {
       rectangle1: enemy,
       rectangle2: player,
     }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.framesCurrent === 2
   ) {
     enemy.isAttacking = false;
     player.health -= 10;
     document.querySelector("#playerHealth").style.width = player.health + "%";
+  }
+
+  // enemy misses
+  if (enemy.isAttacking && enemy.framesCurrent === 4) {
+    enemy.isAttacking = false;
   }
 
   //end game based on health

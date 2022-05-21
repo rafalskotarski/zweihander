@@ -60,6 +60,7 @@ class Fighter extends Sprite {
     framesMax = 1,
     offset = { x: 0, y: 0 },
     sprites,
+    hitBox = { offset: {}, width: undefined, height: undefined },
   }) {
     super({
       position,
@@ -78,9 +79,9 @@ class Fighter extends Sprite {
         x: this.position.x,
         y: this.position.y,
       },
-      offset,
-      width: 100,
-      height: 50,
+      offset: hitBox.offset,
+      width: hitBox.width,
+      height: hitBox.height,
     };
     this.color = color;
     this.isAttacking;
@@ -100,8 +101,17 @@ class Fighter extends Sprite {
     this.draw();
     this.animateFrames();
 
+    // hit boxes
     this.hitBox.position.x = this.position.x + this.hitBox.offset.x;
-    this.hitBox.position.y = this.position.y;
+    this.hitBox.position.y = this.position.y + this.hitBox.offset.y;
+
+    // draw hit boxes
+    // context.fillRect(
+    //   this.hitBox.position.x,
+    //   this.hitBox.position.y,
+    //   this.hitBox.width,
+    //   this.hitBox.height
+    // );
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -119,9 +129,6 @@ class Fighter extends Sprite {
   attack() {
     this.switchSprite("attack1");
     this.isAttacking = true;
-    setTimeout(() => {
-      this.isAttacking = false;
-    }, 100);
   }
 
   switchSprite(sprite) {
