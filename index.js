@@ -13,13 +13,13 @@ const background = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./assets/background.PNG",
+  imageSrc: "./assets/background.png",
 });
 
 const shop = new Sprite({
   position: {
-    x: canvas.width / 2,
-    y: canvas.height - 350,
+    x: canvas.width / 1.6,
+    y: canvas.height - 450,
   },
   imageSrc: "./assets/shop.png",
   scale: 2.75,
@@ -39,11 +39,37 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
+  imageSrc: "./assets/samurai/Idle.png",
+  framesMax: 8,
+  scale: 2.5,
+  offset: { x: 215, y: 250 },
+  sprites: {
+    idle: {
+      imageSrc: "./assets/samurai/Idle.png",
+      framesMax: 8,
+    },
+    run: {
+      imageSrc: "./assets/samurai/Run.png",
+      framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./assets/samurai/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./assets/samurai/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./assets/samurai/Attack1.png",
+      framesMax: 6,
+    },
+  },
 });
 
 const enemy = new Fighter({
   position: {
-    x: canvas.width - 150,
+    x: 400,
     y: 100,
   },
   velocity: {
@@ -54,6 +80,32 @@ const enemy = new Fighter({
   offset: {
     x: -50,
     y: 0,
+  },
+  imageSrc: "./assets/ronin/Idle.png",
+  framesMax: 4,
+  scale: 2.5,
+  offset: { x: 215, y: 265 },
+  sprites: {
+    idle: {
+      imageSrc: "./assets/ronin/Idle.png",
+      framesMax: 4,
+    },
+    run: {
+      imageSrc: "./assets/ronin/Run.png",
+      framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./assets/ronin/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./assets/ronin/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./assets/ronin/Attack1.png",
+      framesMax: 4,
+    },
   },
 });
 
@@ -89,16 +141,43 @@ function animate() {
   enemy.velocity.x = 0;
 
   //player movement
+
   if (keys.a.pressed && player.lastKey === "a") {
     player.velocity.x = -5;
+    player.switchSprite("run");
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.velocity.x = 5;
+    player.switchSprite("run");
+  } else {
+    player.switchSprite("idle");
   }
+
+  // player jumping
+
+  if (player.velocity.y < 0) {
+    player.switchSprite("jump");
+  } else if (player.velocity.y > 0) {
+    player.switchSprite("fall");
+  }
+
   //enemy movement
+
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprite("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprite("run");
+  } else {
+    enemy.switchSprite("idle");
+  }
+
+  // enemy jumping
+
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
   }
 
   //detect for collision
