@@ -64,6 +64,10 @@ const player = new Fighter({
       imageSrc: "./assets/samurai/Attack1.png",
       framesMax: 6,
     },
+    takeHit: {
+      imageSrc: "./assets/samurai/Take Hit.png",
+      framesMax: 4,
+    },
   },
   hitBox: {
     offset: {
@@ -113,6 +117,10 @@ const enemy = new Fighter({
     attack1: {
       imageSrc: "./assets/ronin/Attack1.png",
       framesMax: 4,
+    },
+    takeHit: {
+      imageSrc: "./assets/ronin/Take hit.png",
+      framesMax: 3,
     },
   },
   hitBox: {
@@ -205,8 +213,8 @@ function animate() {
     player.isAttacking &&
     player.framesCurrent === 4
   ) {
+    enemy.takeHit();
     player.isAttacking = false;
-    enemy.health -= 10;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
   }
 
@@ -223,8 +231,8 @@ function animate() {
     enemy.isAttacking &&
     enemy.framesCurrent === 2
   ) {
+    player.takeHit();
     enemy.isAttacking = false;
-    player.health -= 10;
     document.querySelector("#playerHealth").style.width = player.health + "%";
   }
 
