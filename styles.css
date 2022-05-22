@@ -1,3 +1,14 @@
+body {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+p {
+  font-size: 14px;
+}
+
 .container {
   position: relative;
   display: inline-block;
@@ -69,4 +80,13 @@
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.ui_controls {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  padding: 0px;
 }
