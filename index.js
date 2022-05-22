@@ -68,6 +68,10 @@ const player = new Fighter({
       imageSrc: "./assets/samurai/Take Hit.png",
       framesMax: 4,
     },
+    death: {
+      imageSrc: "./assets/samurai/Death.png",
+      framesMax: 6,
+    },
   },
   hitBox: {
     offset: {
@@ -122,6 +126,10 @@ const enemy = new Fighter({
       imageSrc: "./assets/ronin/Take hit.png",
       framesMax: 3,
     },
+    death: {
+      imageSrc: "./assets/ronin/Death.png",
+      framesMax: 7,
+    },
   },
   hitBox: {
     offset: {
@@ -157,7 +165,8 @@ function animate() {
 
   background.update();
   shop.update();
-
+  context.fillStyle = "rgba(180, 100, 255, 0.2)";
+  context.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   enemy.update();
 
@@ -167,11 +176,15 @@ function animate() {
   //player movement
 
   if (keys.a.pressed && player.lastKey === "a") {
-    player.velocity.x = -5;
-    player.switchSprite("run");
+    if (player.position.x >= -25) {
+      player.velocity.x = -5;
+      player.switchSprite("run");
+    }
   } else if (keys.d.pressed && player.lastKey === "d") {
-    player.velocity.x = 5;
-    player.switchSprite("run");
+    if (player.position.x <= 989) {
+      player.velocity.x = 5;
+      player.switchSprite("run");
+    }
   } else {
     player.switchSprite("idle");
   }
@@ -187,11 +200,15 @@ function animate() {
   //enemy movement
 
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
-    enemy.velocity.x = -5;
-    enemy.switchSprite("run");
+    if (enemy.position.x >= -25) {
+      enemy.velocity.x = -5;
+      enemy.switchSprite("run");
+    }
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
-    enemy.velocity.x = 5;
-    enemy.switchSprite("run");
+    if (enemy.position.x <= 989) {
+      enemy.velocity.x = 5;
+      enemy.switchSprite("run");
+    }
   } else {
     enemy.switchSprite("idle");
   }
@@ -215,7 +232,9 @@ function animate() {
   ) {
     enemy.takeHit();
     player.isAttacking = false;
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    gsap.to("#enemyHealth", {
+      width: enemy.health + "%",
+    });
   }
 
   // player misses
@@ -237,7 +256,7 @@ function animate() {
   }
 
   // enemy misses
-  if (enemy.isAttacking && enemy.framesCurrent === 4) {
+  if (enemy.isAttacking && enemy.framesCurrent === 2) {
     enemy.isAttacking = false;
   }
 
@@ -252,37 +271,43 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    //player
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    case "w":
-      player.velocity.y = -20;
-      break;
-    case " ":
-      player.attack();
-      break;
-    //enemy
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
-    case "ArrowUp":
-      enemy.velocity.y = -20;
-      break;
-    case "0":
-      enemy.attack();
-      break;
+  if (!player.dead) {
+    switch (e.key) {
+      //player
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      case "w":
+        if (player.position.y === 426.3) player.velocity.y = -20;
+        break;
+      case " ":
+        player.attack();
+        break;
+    }
+  }
+  if (!enemy.dead) {
+    switch (e.key) {
+      //enemy
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
+      case "ArrowUp":
+        if (enemy.position.y === 426.3) enemy.velocity.y = -20;
+        break;
+      case "0":
+        enemy.attack();
+        break;
+    }
   }
 });
 

@@ -9,6 +9,7 @@
   width: 100%;
   align-items: center;
   padding: 20px;
+  opacity: 90%;
 }
 
 .ui__health-container {
@@ -17,12 +18,14 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  opacity: 90%;
 }
 
 .ui__max-health {
   background-color: rgb(119, 119, 69);
   height: 30px;
   width: 100%;
+  opacity: 90%;
 }
 
 .ui__player-health,
@@ -50,13 +53,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 90%;
 }
 
 .announcement {
   position: absolute;
   color: antiquewhite;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-  font-family: sans;
+  font-family: "Macondo", cursive;
   font-size: 72px;
   display: none;
   align-items: center;
